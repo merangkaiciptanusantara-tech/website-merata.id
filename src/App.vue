@@ -2,15 +2,22 @@
 import { computed, onMounted, ref } from 'vue'
 
 const isMenuOpen = ref(false)
-const submitted = ref(false)
 const theme = ref('light')
 const assetBase = import.meta.env.BASE_URL
-const form = ref({ name: '', email: '', service: '' })
 const isDark = computed(() => theme.value === 'dark')
 const services = [
   { number: '01', title: 'Web Development', category: 'SOFTWARE HOUSE', description: 'Website dan aplikasi web yang dibangun untuk kebutuhan nyata bisnismu—cepat, responsif, dan siap berkembang.', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1100&q=85', icon: '↗' },
   { number: '02', title: 'UI/UX Design', category: 'PRODUCT DESIGN', description: 'Pengalaman digital yang mudah dipahami, nyaman digunakan, dan terasa konsisten dengan brand kamu.', image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=1100&q=85', icon: '✳' },
-  { number: '03', title: 'Jasa Push Followers', category: 'SOCIAL MEDIA', description: 'Dukungan pertumbuhan followers untuk membantu memperluas jangkauan dan membangun bukti sosial akunmu.', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1100&q=85', icon: '＋' },
+  { number: '03', title: 'Mobile Apps Development', category: 'MOBILE APPLICATION', description: 'Aplikasi mobile yang dirancang untuk memudahkan pengguna dan mendukung kebutuhan bisnismu.', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1100&q=85', icon: '↗' },
+  { number: '04', title: 'Graphic Design', category: 'VISUAL IDENTITY', description: 'Materi visual yang konsisten dan menarik untuk memperkuat identitas brand di berbagai kanal.', image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1100&q=85', icon: '✳' },
+  { number: '05', title: 'API Service Development', category: 'API & INTEGRATION', description: 'API untuk menghubungkan website, aplikasi, dan layanan pihak ketiga agar data serta fitur dapat bekerja bersama.', image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1100&q=85', icon: '↔' },
+  { number: '06', title: 'Push Like Follower', category: 'SOCIAL MEDIA', description: 'Layanan push like dan follower untuk membantu meningkatkan interaksi serta jangkauan akunmu.', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1100&q=85', icon: '＋' },
+]
+const projects = [
+  { name: 'Amanah Citra Cemerlang', type: 'COMPANY PROFILE · WEB DEVELOPMENT', domain: 'amanahcitracemerlang.id', url: 'https://amanahcitracemerlang.id/', preview: `${assetBase}portofolio/web1.png`, summary: 'Website profil dan informasi program LPK ACC Japan Centre.' },
+  { name: 'Garuda Mestakung Indonesia', type: 'EDUCATION · WEB DEVELOPMENT', domain: 'garudamestakungindonesia.my.id', url: 'https://garudamestakungindonesia.my.id/', preview: `${assetBase}portofolio/web2.png`, summary: 'Website LPK GMI untuk mengenalkan program pelatihan dan kerja ke Jepang.' },
+  { name: 'Rakerda Jateng 2025', type: 'EVENT · WEB DEVELOPMENT', domain: 'rakerdajateng2025.my.id', url: 'https://rakerdajateng2025.my.id/', preview: `${assetBase}portofolio/web3.jpeg`, summary: 'Website informasi dan pendaftaran peserta Rakerda PD IAI Jateng Tahun 2025.' },
+  { name: 'TPQ Al Istiqomah & MDTA Hidayatul Ulum Talang', type: 'EDUCATION · WEB DEVELOPMENT', domain: 'TPQ AL ISTIQOMAH · TALANG', preview: `${assetBase}portofolio/web4.png`, summary: 'Website TPQ Al Istiqomah dan MDTA Hidayatul Ulum Talang.' },
 ]
 const steps = [
   { number: '01', title: 'Dengar & pahami', description: 'Kami mulai dari tujuan dan kebutuhanmu.' },
@@ -26,10 +33,6 @@ function scrollTo(id) {
 function toggleTheme() {
   theme.value = isDark.value ? 'light' : 'dark'
   localStorage.setItem('mcn-theme', theme.value)
-}
-
-function submitForm() {
-  submitted.value = true
 }
 
 onMounted(() => {
@@ -49,6 +52,7 @@ onMounted(() => {
       </button>
       <nav id="main-navigation" class="nav-links" :class="{ open: isMenuOpen }" aria-label="Navigasi utama">
         <a href="#services" @click.prevent="scrollTo('services')">Layanan</a>
+        <a href="#projects" @click.prevent="scrollTo('projects')">Our Projects</a>
         <a href="#process" @click.prevent="scrollTo('process')">Cara kerja</a>
         <a href="#contact" @click.prevent="scrollTo('contact')">Kontak</a>
         <button class="theme-toggle" :aria-label="isDark ? 'Aktifkan mode terang' : 'Aktifkan mode gelap'" :aria-pressed="isDark" @click="toggleTheme">
@@ -79,12 +83,12 @@ onMounted(() => {
         <div class="hero-bottom"><span>01 — 03</span><span>SCROLL TO EXPLORE ↓</span></div>
       </section>
 
-      <section class="ticker" aria-label="Layanan utama"><div class="ticker-track"><div class="ticker-group"><span>WEB DEVELOPMENT</span><b>✳</b><span>UI/UX DESIGN</span><b>✳</b><span>SOCIAL MEDIA GROWTH</span><b>✳</b><span>SOFTWARE HOUSE</span><b>✳</b></div><div class="ticker-group" aria-hidden="true"><span>WEB DEVELOPMENT</span><b>✳</b><span>UI/UX DESIGN</span><b>✳</b><span>SOCIAL MEDIA GROWTH</span><b>✳</b><span>SOFTWARE HOUSE</span><b>✳</b></div></div></section>
+      <section class="ticker" aria-label="Layanan utama"><div class="ticker-track"><div class="ticker-group"><span>WEB DEVELOPMENT</span><b>✳</b><span>UI/UX DESIGN</span><b>✳</b><span>MOBILE APPS</span><b>✳</b><span>GRAPHIC DESIGN</span><b>✳</b><span>API SERVICE</span><b>✳</b><span>PUSH LIKE FOLLOWER</span><b>✳</b></div><div class="ticker-group" aria-hidden="true"><span>WEB DEVELOPMENT</span><b>✳</b><span>UI/UX DESIGN</span><b>✳</b><span>MOBILE APPS</span><b>✳</b><span>GRAPHIC DESIGN</span><b>✳</b><span>API SERVICE</span><b>✳</b><span>PUSH LIKE FOLLOWER</span><b>✳</b></div></div></section>
 
       <section id="services" class="services section-pad">
         <div class="section-heading">
           <div><p class="eyebrow">01 / YANG KAMI KERJAKAN</p><h2>Solusi digital<br /><em>yang berarti.</em></h2></div>
-          <p class="heading-note">Dari ide pertama hingga siap bertumbuh, kami merancang solusi yang pas untuk langkah berikutnya.</p>
+          <p class="heading-note">Web, aplikasi mobile, desain visual, hingga layanan media sosial untuk membantu bisnismu melangkah maju.</p>
         </div>
         <div class="service-cards">
           <article v-for="service in services" :key="service.number" class="service-card">
@@ -94,19 +98,42 @@ onMounted(() => {
         </div>
       </section>
 
+      <section id="projects" class="projects section-pad">
+        <div class="section-heading">
+          <div><p class="eyebrow">02 / WEB DEVELOPMENT</p><h2>Our<br /><em>projects.</em></h2></div>
+          <p class="heading-note">Beberapa website yang kami bangun untuk membantu brand dan acara hadir lebih kuat secara digital.</p>
+        </div>
+        <div class="project-grid">
+          <article v-for="(project, index) in projects" :key="project.url" class="project-card">
+            <a v-if="project.url" class="project-preview" :href="project.url" target="_blank" rel="noreferrer" :aria-label="`Lihat website ${project.name}`">
+              <div class="browser-bar"><span class="browser-dots"><i></i><i></i><i></i></span><span class="browser-domain">{{ project.domain }}</span><span class="browser-open">↗</span></div>
+              <div class="preview-screen"><div class="preview-fallback"><span>WEB PROJECT / 0{{ index + 1 }}</span><strong>{{ project.name }}</strong></div><img :src="project.preview" :alt="`Preview website ${project.name}`" loading="lazy" @error="$event.target.style.display = 'none'" /></div>
+            </a>
+            <div v-else class="project-preview">
+              <div class="browser-bar"><span class="browser-dots"><i></i><i></i><i></i></span><span class="browser-domain">{{ project.domain }}</span></div>
+              <div class="preview-screen"><div class="preview-fallback"><span>WEB PROJECT / 0{{ index + 1 }}</span><strong>{{ project.name }}</strong></div><img :src="project.preview" :alt="`Preview website ${project.name}`" loading="lazy" @error="$event.target.style.display = 'none'" /></div>
+            </div>
+            <div class="project-info"><span class="project-type">{{ project.type }}</span><h3>{{ project.name }}</h3><p>{{ project.summary }}</p><a v-if="project.url" class="project-link" :href="project.url" target="_blank" rel="noreferrer">Kunjungi website <span>↗</span></a></div>
+          </article>
+        </div>
+      </section>
+
       <section id="process" class="process section-pad">
-        <div class="process-intro"><p class="eyebrow">02 / CARA KAMI BEKERJA</p><h2>Jelas dari<br /><em>awal.</em></h2><p>Kolaborasi yang baik dimulai dengan mendengarkan, lalu bergerak bersama.</p></div>
+        <div class="process-intro"><p class="eyebrow">03 / CARA KAMI BEKERJA</p><h2>Jelas dari<br /><em>awal.</em></h2><p>Kolaborasi yang baik dimulai dengan mendengarkan, lalu bergerak bersama.</p></div>
         <div class="steps"><article v-for="step in steps" :key="step.number" class="step"><span class="step-number">{{ step.number }}</span><div><h3>{{ step.title }}</h3><p>{{ step.description }}</p></div><span class="step-arrow">↗</span></article></div>
       </section>
 
       <section id="contact" class="contact section-pad">
-        <div class="contact-copy"><p class="eyebrow">03 / MULAI SESUATU</p><h2>Ada ide?<br /><em>Ayo wujudkan.</em></h2><p class="friendly-note">Ceritakan kebutuhan web, UI/UX, atau pertumbuhan media sosialmu. Kami siap mendengarkan.</p>
-          <div class="social-links"><a href="https://wa.me/6285794909132" target="_blank" rel="noreferrer"><span>WhatsApp</span><strong>Chat sekarang ↗</strong></a><a href="https://www.instagram.com/merata.id/" target="_blank" rel="noreferrer"><span>Instagram</span><strong>@merata.id ↗</strong></a><a href="https://www.tiktok.com/@merata.id" target="_blank" rel="noreferrer"><span>TikTok</span><strong>@merata.id ↗</strong></a></div>
+        <div class="contact-copy"><p class="eyebrow">04 / MULAI SESUATU</p><h2>Ada ide?<br /><em>Ayo wujudkan.</em></h2><p class="friendly-note">Ceritakan kebutuhan web, UI/UX, atau pertumbuhan media sosialmu. Kami siap mendengarkan.</p>
+          <div class="social-links"><a href="https://wa.me/6285794909132" target="_blank" rel="noreferrer"><span>WhatsApp</span><strong>Chat sekarang ↗</strong></a><a href="https://www.instagram.com/merata.id_/" target="_blank" rel="noreferrer"><span>Instagram</span><strong>@merata.id ↗</strong></a><a href="https://www.tiktok.com/@merata.id" target="_blank" rel="noreferrer"><span>TikTok</span><strong>@merata.id ↗</strong></a></div>
         </div>
-        <form class="contact-form" @submit.prevent="submitForm">
-          <template v-if="!submitted"><p class="form-heading">Ceritakan rencanamu<span>✳</span></p><label>Nama<input v-model="form.name" required type="text" placeholder="Nama lengkap" /></label><label>Email<input v-model="form.email" required type="email" placeholder="nama@email.com" /></label><label>Layanan yang diminati<select v-model="form.service" required><option disabled value="">Pilih layanan</option><option>Web Development</option><option>UI/UX Design</option><option>Jasa Push Followers</option></select></label><button class="button-primary submit-button" type="submit">Kirim brief <span>↗</span></button></template>
-          <div v-else class="success-state"><span class="success-icon">✓</span><h3>Terima kasih, {{ form.name }}.</h3><p>Brief kamu sudah kami terima. Silakan lanjutkan percakapan melalui WhatsApp.</p><a href="https://wa.me/6285794909132" target="_blank" rel="noreferrer">Buka WhatsApp ↗</a></div>
-        </form>
+        <aside class="contact-card">
+          <div class="contact-card-top"><span>SIAP MULAI PROYEK</span><span>MCN · 01</span></div>
+          <div class="contact-card-orbit orbit-a"></div><div class="contact-card-orbit orbit-b"></div>
+          <span class="contact-card-star">✳</span>
+          <div class="contact-card-content"><span class="contact-card-kicker">Satu obrolan bisa jadi langkah pertama.</span><h3>Yuk, ceritakan<br />rencanamu.</h3><p>Hubungi tim kami langsung untuk konsultasi layanan dan kebutuhan proyekmu.</p><a class="contact-whatsapp" href="https://wa.me/6285794909132?text=Halo%20Merangkai%20Cipta%20Nusantara%2C%20saya%20ingin%20konsultasi%20proyek." target="_blank" rel="noreferrer"><span>Hubungi via WhatsApp</span><b>↗</b></a></div>
+          <span class="contact-card-foot">WEB · APP · DESIGN · DIGITAL</span>
+        </aside>
       </section>
     </main>
 

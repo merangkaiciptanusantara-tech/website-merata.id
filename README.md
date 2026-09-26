@@ -11,12 +11,16 @@ https://merangkaiciptanusantara-tech.github.io/website-merata.id/
 - Landing page responsive untuk desktop, tablet, dan mobile
 - Branding Merangkai Cipta Nusantara dengan logo resmi
 - Tampilan responsif dengan mode terang dan gelap
-- Tiga card layanan dengan gambar dan hover animation
+- Enam card layanan dengan gambar dan hover animation
+- Bagian Our Projects dengan preview website ACC Japan Centre, GMI Japan, dan Rakerda Jateng 2025
 - Daftar layanan:
   - Web Development
   - UI/UX Design
-  - Jasa Push Followers
-- Form brief project interaktif
+  - Mobile Apps Development
+  - Graphic Design
+  - API Service Development
+  - Push Like Follower
+- Kontak langsung melalui WhatsApp, Instagram, dan TikTok
 - Kontak WhatsApp, Instagram, dan TikTok Merangkai Cipta Nusantara
 - Kontak Instagram dan TikTok pemilik
 - Deployment otomatis ke GitHub Pages saat ada push ke branch `main`
