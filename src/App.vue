@@ -104,7 +104,7 @@ onMounted(() => {
           <p class="heading-note">Beberapa website yang kami bangun untuk membantu brand dan acara hadir lebih kuat secara digital.</p>
         </div>
         <div class="project-grid">
-          <article v-for="(project, index) in projects" :key="project.url" class="project-card">
+          <article v-for="(project, index) in projects" :key="project.name" class="project-card">
             <a v-if="project.url" class="project-preview" :href="project.url" target="_blank" rel="noreferrer" :aria-label="`Lihat website ${project.name}`">
               <div class="browser-bar"><span class="browser-dots"><i></i><i></i><i></i></span><span class="browser-domain">{{ project.domain }}</span><span class="browser-open">↗</span></div>
               <div class="preview-screen"><div class="preview-fallback"><span>WEB PROJECT / 0{{ index + 1 }}</span><strong>{{ project.name }}</strong></div><img :src="project.preview" :alt="`Preview website ${project.name}`" loading="lazy" @error="$event.target.style.display = 'none'" /></div>
