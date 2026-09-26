@@ -90,13 +90,13 @@ Pastikan GitHub Pages di repository sudah menggunakan source **GitHub Actions** 
 
 ## Deployment Otomatis ke Rumahweb
 
-Workflow `.github/workflows/deploy-rumahweb.yml` akan membangun dan mengunggah folder `dist/` ke Rumahweb setiap push ke branch `main` atau `master`. Untuk mengaktifkannya:
+Workflow `.github/workflows/main.yml` akan membangun dan mengunggah folder `dist/` ke Rumahweb setiap push ke branch `main`. Untuk mengaktifkannya:
 
 1. Buat akun FTP khusus di cPanel Rumahweb dan arahkan aksesnya ke document root domain. Rumahweb menjelaskan pembuatan akun FTP di [panduan resmi ini](https://www.rumahweb.com/journal/cara-membuat-akun-ftp-di-cpanel/).
 2. Di GitHub repository, buka **Settings → Secrets and variables → Actions**.
 3. Tambahkan repository secrets `FTP_SERVER`, `FTP_USERNAME`, dan `FTP_PASSWORD` sesuai detail akun FTP.
-4. Tambahkan repository variable `FTP_SERVER_DIR` sesuai folder tujuan. Gunakan `public_html/` jika akun FTP membuka root akun cPanel, atau `./` jika akun FTP dibatasi langsung ke document root domain.
-5. Workflow memakai FTPS secara default. Jika hosting hanya mendukung FTP, tambahkan variable `FTP_PROTOCOL` dengan nilai `ftp`.
+4. Jika akun FTP membuka root akun cPanel, tambahkan repository variable `FTP_SERVER_DIR` bernilai `public_html/`. Jika akun FTP dibatasi langsung ke document root domain, gunakan `./`.
+5. Workflow menerima secret host bernama `FTP_SERVER` atau `FTP_HOST`. FTP dipakai secara default; jika Rumahweb mengaktifkan FTPS untuk akunmu, tambahkan variable `FTP_PROTOCOL` bernilai `ftps`.
 
 Setelah secrets dan variable disimpan, push berikutnya akan otomatis memperbarui http://merangkaiciptanusantara.my.id/. Password FTP hanya disimpan di GitHub Secrets, bukan di file project. Lihat [panduan resmi GitHub untuk Actions Secrets](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets).
 

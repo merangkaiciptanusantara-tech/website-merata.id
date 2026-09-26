@@ -4,34 +4,54 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rumahweb-deploy
+  cancel-in-progress: true
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Ambil source code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v4
         with:
-          node-version: 24
-          package-manager-cache: false
+          node-version: 20
+          cache: npm
 
       - name: Install dependencies
-        run: npm install --include=dev
+        run: npm ci
 
       - name: Build Vue
-        run: npx vite build
+        run: npm run build
         env:
           DEPLOY_TARGET: rumahweb
 
+      - name: Periksa pengaturan FTP
+        env:
+          FTP_HOST: ${{ secrets.FTP_SERVER || secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          test -n "$FTP_HOST" || { echo "::error::Tambahkan secret FTP_SERVER atau FTP_HOST."; exit 1; }
+          test -n "$FTP_USERNAME" || { echo "::error::Tambahkan secret FTP_USERNAME."; exit 1; }
+          test -n "$FTP_PASSWORD" || { echo "::error::Tambahkan secret FTP_PASSWORD."; exit 1; }
+
       - name: Upload ke Rumahweb
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
-          server: ${{ secrets.FTP_HOST }}
+          server: ${{ secrets.FTP_SERVER || secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ./
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftp' }}
+          server-dir: ${{ vars.FTP_SERVER_DIR || './' }}
           local-dir: ./dist/
