@@ -1,6 +1,6 @@
-# FDS | Fintechno Development Solution
+# Merangkai Cipta Nusantara
 
-Landing page resmi untuk **Fintechno Development Solution (FDS)**, digital partner untuk kebutuhan website, desain grafis, dan UI/UX.
+Landing page resmi **Merangkai Cipta Nusantara**, software house untuk web development, UI/UX design, dan jasa push followers.
 
 ## Live Website
 
@@ -9,20 +9,15 @@ https://fintechnodevelopmentsolution-sudo.github.io/website-fds/
 ## Fitur
 
 - Landing page responsive untuk desktop, tablet, dan mobile
-- Branding FDS dengan logo resmi
-- Loading screen transparan dengan animasi logo
-- Card layanan dengan gambar dan hover animation
+- Branding Merangkai Cipta Nusantara dengan logo resmi
+- Tampilan responsif dengan mode terang dan gelap
+- Tiga card layanan dengan gambar dan hover animation
 - Daftar layanan:
-  - Landing Page
-  - Website Professional
-  - Website Company Profile
-  - Website Personal Branding
-  - Website Custom
-  - Website Undangan Online
-  - Desain Grafis
-  - UI/UX Figma
+  - Web Development
+  - UI/UX Design
+  - Jasa Push Followers
 - Form brief project interaktif
-- Kontak WhatsApp, Instagram, dan TikTok FDS
+- Kontak WhatsApp, Instagram, dan TikTok Merangkai Cipta Nusantara
 - Kontak Instagram dan TikTok pemilik
 - Deployment otomatis ke GitHub Pages melalui GitHub Actions
 
@@ -97,7 +92,7 @@ Pastikan GitHub Pages di repository sudah menggunakan source **GitHub Actions**:
 │   └── workflows/
 │       └── deploy-pages.yml
 ├── public/
-│   └── logo.jpg
+│   └── merangkai-cipta-nusantara.png
 ├── src/
 │   ├── App.vue
 │   ├── main.js
@@ -110,7 +105,7 @@ Pastikan GitHub Pages di repository sudah menggunakan source **GitHub Actions**:
 ## Kontak
 
 - WhatsApp: https://wa.me/6285794909132
-- Instagram FDS: https://www.instagram.com/fintechno_/
-- TikTok FDS: https://www.tiktok.com/@fintechno_/
+- Instagram: https://www.instagram.com/merata.id/
+- TikTok: https://www.tiktok.com/@merata.id
 - Instagram Owner: https://www.instagram.com/mohfiqih_/
 - TikTok Owner: https://www.tiktok.com/@mohfiqih_/

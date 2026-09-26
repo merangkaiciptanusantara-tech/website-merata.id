@@ -1,49 +1,115 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
-const isLoading = ref(true)
 const isMenuOpen = ref(false)
 const submitted = ref(false)
+const theme = ref('light')
 const assetBase = import.meta.env.BASE_URL
 const form = ref({ name: '', email: '', service: '' })
+const isDark = computed(() => theme.value === 'dark')
 const services = [
-  { number: '01', title: 'Landing Page', text: 'Halaman fokus yang menarik perhatian dan mendorong pengunjung mengambil aksi.', tag: 'CAMPAIGN + DEV', image: 'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1000&q=85' },
-  { number: '02', title: 'Website Professional', text: 'Website modern untuk bisnis yang ingin terlihat lebih kredibel dan siap berkembang.', tag: 'DESIGN + DEV', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=85' },
-  { number: '03', title: 'Website Company Profile', text: 'Profil digital yang menjelaskan siapa kamu dan kenapa pelanggan harus percaya.', tag: 'STRATEGI + DEV', image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1000&q=85' },
-  { number: '04', title: 'Website Personal Branding', text: 'Ruang digital personal untuk menampilkan karya, cerita, dan keahlianmu.', tag: 'PERSONAL PROJECT', image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1000&q=85' },
-  { number: '05', title: 'Website Custom', text: 'Fitur dan tampilan yang dirancang khusus mengikuti kebutuhan unik brand kamu.', tag: 'CUSTOM SOLUTION', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=85' },
-  { number: '06', title: 'Website Undangan Online', text: 'Undangan digital yang personal, praktis, dan memorable untuk momen spesial.', tag: 'SPECIAL MOMENT', image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000&q=85', link: 'https://fintechnodevelopmentsolution-sudo.github.io/fds-undangan-digital/' },
-  { number: '07', title: 'Desain Grafis', text: 'Identitas visual, konten, dan materi promosi yang konsisten dan standout.', tag: 'VISUAL IDENTITY', image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1000&q=85' },
-  { number: '08', title: 'UI/UX Figma', text: 'Interface yang bersih, alur yang jelas, dan prototype siap dikembangkan.', tag: 'PRODUCT DESIGN', image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=1000&q=85' },
+  { number: '01', title: 'Web Development', category: 'SOFTWARE HOUSE', description: 'Website dan aplikasi web yang dibangun untuk kebutuhan nyata bisnismu—cepat, responsif, dan siap berkembang.', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1100&q=85', icon: '↗' },
+  { number: '02', title: 'UI/UX Design', category: 'PRODUCT DESIGN', description: 'Pengalaman digital yang mudah dipahami, nyaman digunakan, dan terasa konsisten dengan brand kamu.', image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=1100&q=85', icon: '✳' },
+  { number: '03', title: 'Jasa Push Followers', category: 'SOCIAL MEDIA', description: 'Dukungan pertumbuhan followers untuk membantu memperluas jangkauan dan membangun bukti sosial akunmu.', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1100&q=85', icon: '＋' },
 ]
 const steps = [
-  ['01', 'Dengar & pahami', 'Kami mulai dari konteks, bukan asumsi.'],
-  ['02', 'Rancang dengan niat', 'Setiap detail punya alasan dan tujuan.'],
-  ['03', 'Bangun & bertumbuh', 'Hasil yang siap diluncurkan dan dikembangkan.'],
+  { number: '01', title: 'Dengar & pahami', description: 'Kami mulai dari tujuan dan kebutuhanmu.' },
+  { number: '02', title: 'Rancang solusi', description: 'Strategi dan detail disusun dengan jelas.' },
+  { number: '03', title: 'Bangun & bertumbuh', description: 'Solusi diluncurkan dan siap dikembangkan.' },
 ]
-function scrollTo(id) { isMenuOpen.value = false; document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }) }
-function submitForm() { submitted.value = true }
-onMounted(() => window.setTimeout(() => { isLoading.value = false }, 700))
+
+function scrollTo(id) {
+  isMenuOpen.value = false
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+}
+
+function toggleTheme() {
+  theme.value = isDark.value ? 'light' : 'dark'
+  localStorage.setItem('mcn-theme', theme.value)
+}
+
+function submitForm() {
+  submitted.value = true
+}
+
+onMounted(() => {
+  const savedTheme = localStorage.getItem('mcn-theme')
+  theme.value = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+})
 </script>
 
 <template>
-  <div class="site-shell">
-    <Transition name="loader">
-      <div v-if="isLoading" class="page-loader"><img class="loader-logo" :src="`${assetBase}logo.jpg`" alt="Fintechno Development Solution" /><div class="loader-line"><span></span></div><p>LOADING EXPERIENCE</p></div>
-    </Transition>
+  <div class="site-shell" :data-theme="theme">
     <header class="topbar">
-      <a class="brand" href="#top" @click.prevent="scrollTo('top')"><img class="brand-logo" :src="`${assetBase}logo.jpg`" alt="Fintechno Development Solution" /></a>
-      <button class="menu-toggle" :aria-expanded="isMenuOpen" aria-label="Buka navigasi" @click="isMenuOpen = !isMenuOpen"><span></span><span></span></button>
-      <nav class="nav-links" :class="{ open: isMenuOpen }"><a href="#services" @click.prevent="scrollTo('services')">Layanan</a><a href="#process" @click.prevent="scrollTo('process')">Cara kerja</a><a href="#contact" @click.prevent="scrollTo('contact')">Kontak</a><button class="nav-cta" @click="scrollTo('contact')">Mulai proyek <span>↗</span></button></nav>
+      <a class="brand" href="#top" aria-label="Merangkai Cipta Nusantara" @click.prevent="scrollTo('top')">
+        <img :src="`${assetBase}${isDark ? 'merata-id-logo-dark.png' : 'merata-id-logo.png'}`" alt="merata.id" />
+      </a>
+      <button class="menu-toggle" :aria-expanded="isMenuOpen" :aria-label="isMenuOpen ? 'Tutup navigasi' : 'Buka navigasi'" aria-controls="main-navigation" @click="isMenuOpen = !isMenuOpen">
+        <span></span><span></span>
+      </button>
+      <nav id="main-navigation" class="nav-links" :class="{ open: isMenuOpen }" aria-label="Navigasi utama">
+        <a href="#services" @click.prevent="scrollTo('services')">Layanan</a>
+        <a href="#process" @click.prevent="scrollTo('process')">Cara kerja</a>
+        <a href="#contact" @click.prevent="scrollTo('contact')">Kontak</a>
+        <button class="theme-toggle" :aria-label="isDark ? 'Aktifkan mode terang' : 'Aktifkan mode gelap'" :aria-pressed="isDark" @click="toggleTheme">
+          <span class="theme-icon">{{ isDark ? '☀' : '☾' }}</span><span>{{ isDark ? 'Terang' : 'Gelap' }}</span>
+        </button>
+        <button class="nav-cta" @click="scrollTo('contact')">Mulai proyek <span>↗</span></button>
+      </nav>
     </header>
 
     <main id="top">
-      <section class="hero section-pad"><div class="hero-copy"><div class="hero-brand"><img :src="`${assetBase}logo.jpg`" alt="Logo FDS" /><div><strong>FDS</strong><span>Fintechno Development Solution</span></div></div><p class="eyebrow"><span class="pulse-dot"></span> Digital partner for ambitious ideas</p><h1>MAKE IT<br /><em>MATTER.</em></h1><p class="hero-intro">Kami membantu bisnis dan personal brand hadir lebih kuat di dunia digital — dari ide pertama sampai siap diluncurkan.</p><button class="text-button" @click="scrollTo('services')">Lihat layanan <span>↓</span></button></div><div class="hero-visual" aria-label="Ilustrasi abstrak teknologi"><div class="visual-grid"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="visual-core"><span>FDS</span><small>EST. 2020</small></div><div class="visual-label label-top">IDEA<br /><strong>→</strong></div><div class="visual-label label-bottom">DESIGN<br /><strong>→</strong></div></div><div class="hero-footnote">SCROLL TO EXPLORE <span>↓</span></div></section>
-      <section class="marquee"><div class="marquee-track"><span>WEB DEVELOPMENT</span><b>✳</b><span>VISUAL IDENTITY</span><b>✳</b><span>UI/UX DESIGN</span><b>✳</b><span>WEB UNDANGAN ONLINE</span></div></section>
-      <section id="services" class="services section-pad"><div class="section-heading"><p class="eyebrow">01 / Apa yang kami kerjakan</p><h2>Built for your<br /><em>next move.</em></h2><p class="heading-note">Solusi digital yang dirancang untuk membuat brand kamu terlihat, terasa, dan diingat.</p></div><div class="service-cards"><article v-for="service in services" :key="service.number" class="service-card"><div class="card-image"><img :src="service.image" :alt="service.title" loading="lazy" /><span class="service-number">{{ service.number }}</span><span class="card-arrow">↗</span></div><div class="card-content"><span class="service-tag">{{ service.tag }}</span><h3>{{ service.title }}</h3><p>{{ service.text }}</p><a v-if="service.link" class="card-link" :href="service.link" target="_blank" rel="noreferrer">Lihat contoh <span>↗</span></a><button v-else class="card-link" @click="scrollTo('contact')">Bahas project <span>↗</span></button></div></article></div></section>
-      <section id="process" class="process section-pad"><div class="process-intro"><p class="eyebrow">02 / Cara kami bekerja</p><h2>Good work<br /><em>feels clear.</em></h2></div><div class="steps"><div v-for="step in steps" :key="step[0]" class="step"><span class="step-number">{{ step[0] }}</span><div><h3>{{ step[1] }}</h3><p>{{ step[2] }}</p></div></div></div></section>
-      <section id="contact" class="contact section-pad"><div class="contact-heading"><p class="eyebrow">03 / Mari ngobrol</p><h2>Punya ide?<br /><em>Let's make it real.</em></h2><p class="friendly-note">Cerita dulu saja. Kami siap bantu menerjemahkan ide kamu menjadi website dan visual yang terasa pas.</p><div class="social-links"><a href="https://wa.me/6285794909132" target="_blank" rel="noreferrer"><span>WhatsApp</span><strong>Chat sekarang ↗</strong></a><a href="https://www.instagram.com/fintechno_/" target="_blank" rel="noreferrer"><span>Instagram</span><strong>@fintechno_ ↗</strong></a><a href="https://www.tiktok.com/@fintechno_" target="_blank" rel="noreferrer"><span>TikTok</span><strong>@fintechno_ ↗</strong></a></div></div><form class="contact-form" @submit.prevent="submitForm"><template v-if="!submitted"><label>Nama kamu<input v-model="form.name" required type="text" placeholder="Nama lengkap" /></label><label>Email aktif<input v-model="form.email" required type="email" placeholder="nama@email.com" /></label><label>Yang ingin dibuat<select v-model="form.service" required><option disabled value="">Pilih layanan</option><option>Website Company Profile</option><option>Website Professional</option><option>Undangan Online</option><option>Desain Grafis & UI/UX</option></select></label><button class="submit-button" type="submit">Kirim brief <span>↗</span></button></template><div v-else class="success-state"><span class="success-icon">✓</span><h3>Brief terkirim.</h3><p>Terima kasih, {{ form.name }}. Tim kami akan menghubungi kamu segera.</p></div></form></section>
+      <section class="hero section-pad">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="pulse-dot"></span> SOFTWARE HOUSE · DIGITAL GROWTH</p>
+          <h1>Ide bagus.<br /><em>Jadi nyata.</em></h1>
+          <p class="hero-intro">Merangkai Cipta Nusantara membantu bisnis membangun produk digital dan tumbuh lebih kuat di dunia online.</p>
+          <div class="hero-actions">
+            <button class="button-primary" @click="scrollTo('contact')">Ceritakan proyekmu <span>↗</span></button>
+            <button class="button-text" @click="scrollTo('services')">Jelajahi layanan <span>↓</span></button>
+          </div>
+          <div class="hero-proof"><span class="proof-mark">✳</span><span>Partner digital untuk ide yang ingin berkembang.</span></div>
+        </div>
+        <div class="hero-art" aria-label="Identitas visual Merangkai Cipta Nusantara">
+          <div class="art-glow"></div><div class="art-ring ring-one"></div><div class="art-ring ring-two"></div>
+          <div class="art-card"><img :src="`${assetBase}${isDark ? 'merangkai-cipta-nusantara-dark.png' : 'merangkai-cipta-nusantara.png'}`" alt="Logo Merangkai Cipta Nusantara" /><span>DESIGN · BUILD · GROW</span></div>
+          <span class="art-index index-top">MCN / 01</span><span class="art-index index-bottom">BUILT FOR WHAT'S NEXT</span>
+          <span class="art-star">✳</span>
+        </div>
+        <div class="hero-bottom"><span>01 — 03</span><span>SCROLL TO EXPLORE ↓</span></div>
+      </section>
+
+      <section class="ticker" aria-label="Layanan utama"><div class="ticker-track"><div class="ticker-group"><span>WEB DEVELOPMENT</span><b>✳</b><span>UI/UX DESIGN</span><b>✳</b><span>SOCIAL MEDIA GROWTH</span><b>✳</b><span>SOFTWARE HOUSE</span><b>✳</b></div><div class="ticker-group" aria-hidden="true"><span>WEB DEVELOPMENT</span><b>✳</b><span>UI/UX DESIGN</span><b>✳</b><span>SOCIAL MEDIA GROWTH</span><b>✳</b><span>SOFTWARE HOUSE</span><b>✳</b></div></div></section>
+
+      <section id="services" class="services section-pad">
+        <div class="section-heading">
+          <div><p class="eyebrow">01 / YANG KAMI KERJAKAN</p><h2>Solusi digital<br /><em>yang berarti.</em></h2></div>
+          <p class="heading-note">Dari ide pertama hingga siap bertumbuh, kami merancang solusi yang pas untuk langkah berikutnya.</p>
+        </div>
+        <div class="service-cards">
+          <article v-for="service in services" :key="service.number" class="service-card">
+            <div class="card-image"><img :src="service.image" :alt="service.title" loading="lazy" /><span class="service-number">{{ service.number }}</span><span class="card-icon">{{ service.icon }}</span></div>
+            <div class="card-content"><span class="service-tag">{{ service.category }}</span><h3>{{ service.title }}</h3><p>{{ service.description }}</p><button class="card-link" @click="scrollTo('contact')">Diskusikan layanan <span>↗</span></button></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="process" class="process section-pad">
+        <div class="process-intro"><p class="eyebrow">02 / CARA KAMI BEKERJA</p><h2>Jelas dari<br /><em>awal.</em></h2><p>Kolaborasi yang baik dimulai dengan mendengarkan, lalu bergerak bersama.</p></div>
+        <div class="steps"><article v-for="step in steps" :key="step.number" class="step"><span class="step-number">{{ step.number }}</span><div><h3>{{ step.title }}</h3><p>{{ step.description }}</p></div><span class="step-arrow">↗</span></article></div>
+      </section>
+
+      <section id="contact" class="contact section-pad">
+        <div class="contact-copy"><p class="eyebrow">03 / MULAI SESUATU</p><h2>Ada ide?<br /><em>Ayo wujudkan.</em></h2><p class="friendly-note">Ceritakan kebutuhan web, UI/UX, atau pertumbuhan media sosialmu. Kami siap mendengarkan.</p>
+          <div class="social-links"><a href="https://wa.me/6285794909132" target="_blank" rel="noreferrer"><span>WhatsApp</span><strong>Chat sekarang ↗</strong></a><a href="https://www.instagram.com/merata.id/" target="_blank" rel="noreferrer"><span>Instagram</span><strong>@merata.id ↗</strong></a><a href="https://www.tiktok.com/@merata.id" target="_blank" rel="noreferrer"><span>TikTok</span><strong>@merata.id ↗</strong></a></div>
+        </div>
+        <form class="contact-form" @submit.prevent="submitForm">
+          <template v-if="!submitted"><p class="form-heading">Ceritakan rencanamu<span>✳</span></p><label>Nama<input v-model="form.name" required type="text" placeholder="Nama lengkap" /></label><label>Email<input v-model="form.email" required type="email" placeholder="nama@email.com" /></label><label>Layanan yang diminati<select v-model="form.service" required><option disabled value="">Pilih layanan</option><option>Web Development</option><option>UI/UX Design</option><option>Jasa Push Followers</option></select></label><button class="button-primary submit-button" type="submit">Kirim brief <span>↗</span></button></template>
+          <div v-else class="success-state"><span class="success-icon">✓</span><h3>Terima kasih, {{ form.name }}.</h3><p>Brief kamu sudah kami terima. Silakan lanjutkan percakapan melalui WhatsApp.</p><a href="https://wa.me/6285794909132" target="_blank" rel="noreferrer">Buka WhatsApp ↗</a></div>
+        </form>
+      </section>
     </main>
-    <footer class="footer section-pad"><div class="footer-intro"><a class="brand" href="#top"><img class="brand-logo" :src="`${assetBase}logo.jpg`" alt="Fintechno Development Solution" /></a><p>Technology with a point of view.</p><span class="footer-location">ADIWERNA · TEGAL · JAWA TENGAH</span></div><div class="footer-column"><p class="footer-label">Layanan</p><ul><li><a href="#services">Landing Page</a></li><li><a href="#services">Website Professional</a></li><li><a href="#services">Company Profile</a></li><li><a href="#services">Personal Branding</a></li><li><a href="#services">Website Custom</a></li></ul></div><div class="footer-column"><p class="footer-label">Layanan lainnya</p><ul><li><a href="#services">Undangan Online</a></li><li><a href="#services">Desain Grafis</a></li><li><a href="#services">UI/UX Figma</a></li><li><a href="#process">Cara kerja</a></li><li><a href="#contact">Mulai project</a></li></ul></div><div class="footer-column footer-contact"><p class="footer-label">Hubungi kami</p><a href="https://wa.me/6285794909132" target="_blank" rel="noreferrer">WhatsApp ↗</a><a href="https://www.instagram.com/fintechno_/" target="_blank" rel="noreferrer">Instagram @fintechno_ ↗</a><a href="https://www.tiktok.com/@fintechno_" target="_blank" rel="noreferrer">TikTok @fintechno_ ↗</a><p class="footer-label owner-label">Pemilik</p><a href="https://www.instagram.com/mohfiqih_/" target="_blank" rel="noreferrer">Instagram @mohfiqih_ ↗</a><a href="https://www.tiktok.com/@mohfiqih_" target="_blank" rel="noreferrer">TikTok @mohfiqih_ ↗</a></div><div class="footer-bottom"><span>© 2020 FDS</span><span>Made with intention.</span></div></footer>
+
+    <footer class="footer section-pad"><div class="footer-top"><a class="brand footer-brand" href="#top" @click.prevent="scrollTo('top')"><img :src="`${assetBase}${isDark ? 'merangkai-cipta-nusantara-dark.png' : 'merangkai-cipta-nusantara.png'}`" alt="Merangkai Cipta Nusantara" /></a><p>Software House<br />Adiwerna · Tegal · Jawa Tengah</p><button class="back-top" @click="scrollTo('top')">Kembali ke atas ↑</button></div><div class="footer-bottom"><span>© {{ new Date().getFullYear() }} Merangkai Cipta Nusantara</span><span>Merangkai ide. Mencipta kemungkinan.</span></div></footer>
   </div>
 </template>
