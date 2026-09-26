@@ -4,7 +4,7 @@ Landing page resmi **Merangkai Cipta Nusantara**, software house untuk web devel
 
 ## Live Website
 
-https://fintechnodevelopmentsolution-sudo.github.io/website-fds/
+https://merangkaiciptanusantara-tech.github.io/website-merata.id/
 
 ## Fitur
 
@@ -19,7 +19,7 @@ https://fintechnodevelopmentsolution-sudo.github.io/website-fds/
 - Form brief project interaktif
 - Kontak WhatsApp, Instagram, dan TikTok Merangkai Cipta Nusantara
 - Kontak Instagram dan TikTok pemilik
-- Deployment otomatis ke GitHub Pages melalui GitHub Actions
+- Deployment otomatis ke GitHub Pages saat ada push ke branch `main`
 
 ## Teknologi
 
