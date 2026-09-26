@@ -1,0 +1,58 @@
+name: Deploy to Rumahweb
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rumahweb-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and deploy website
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for Rumahweb
+        run: npm run build
+        env:
+          DEPLOY_TARGET: rumahweb
+
+      - name: Validate FTP settings
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR }}
+        run: |
+          test -n "$FTP_SERVER" || { echo "::error::Add the FTP_SERVER repository secret."; exit 1; }
+          test -n "$FTP_USERNAME" || { echo "::error::Add the FTP_USERNAME repository secret."; exit 1; }
+          test -n "$FTP_PASSWORD" || { echo "::error::Add the FTP_PASSWORD repository secret."; exit 1; }
+          test -n "$FTP_SERVER_DIR" || { echo "::error::Add the FTP_SERVER_DIR repository variable."; exit 1; }
+
+      - name: Deploy dist to Rumahweb
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          server-dir: ${{ vars.FTP_SERVER_DIR }}
+          local-dir: ./dist/

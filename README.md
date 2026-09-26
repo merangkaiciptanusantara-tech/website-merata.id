@@ -70,10 +70,10 @@ Hasil production berada di folder `dist/`.
 Project menggunakan workflow:
 
 ```text
-.github/workflows/deploy-pages.yml
+.github/workflows/pages.yml
 ```
 
-Workflow akan berjalan otomatis setiap push ke branch `master`.
+Workflow GitHub Pages akan berjalan otomatis setiap push ke branch `main` atau `master`.
 
 ```bash
 git add .
@@ -81,12 +81,24 @@ git commit -m "update website"
 git push origin master
 ```
 
-Pastikan GitHub Pages di repository sudah menggunakan source **GitHub Actions**:
+Pastikan GitHub Pages di repository sudah menggunakan source **GitHub Actions** jika masih ingin memakai alamat GitHub Pages:
 
 1. Buka repository GitHub.
 2. Masuk ke **Settings**.
 3. Pilih **Pages**.
 4. Pada bagian **Build and deployment**, pilih **GitHub Actions**.
+
+## Deployment Otomatis ke Rumahweb
+
+Workflow `.github/workflows/deploy-rumahweb.yml` akan membangun dan mengunggah folder `dist/` ke Rumahweb setiap push ke branch `main` atau `master`. Untuk mengaktifkannya:
+
+1. Buat akun FTP khusus di cPanel Rumahweb dan arahkan aksesnya ke document root domain. Rumahweb menjelaskan pembuatan akun FTP di [panduan resmi ini](https://www.rumahweb.com/journal/cara-membuat-akun-ftp-di-cpanel/).
+2. Di GitHub repository, buka **Settings → Secrets and variables → Actions**.
+3. Tambahkan repository secrets `FTP_SERVER`, `FTP_USERNAME`, dan `FTP_PASSWORD` sesuai detail akun FTP.
+4. Tambahkan repository variable `FTP_SERVER_DIR` sesuai folder tujuan. Gunakan `public_html/` jika akun FTP membuka root akun cPanel, atau `./` jika akun FTP dibatasi langsung ke document root domain.
+5. Workflow memakai FTPS secara default. Jika hosting hanya mendukung FTP, tambahkan variable `FTP_PROTOCOL` dengan nilai `ftp`.
+
+Setelah secrets dan variable disimpan, push berikutnya akan otomatis memperbarui http://merangkaiciptanusantara.my.id/. Password FTP hanya disimpan di GitHub Secrets, bukan di file project. Lihat [panduan resmi GitHub untuk Actions Secrets](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets).
 
 ## Struktur Project
 
