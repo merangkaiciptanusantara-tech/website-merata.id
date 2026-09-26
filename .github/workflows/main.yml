@@ -24,6 +24,8 @@ jobs:
 
       - name: Build Vue
         run: npx vite build
+        env:
+          DEPLOY_TARGET: rumahweb
 
       - name: Upload ke Rumahweb
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
